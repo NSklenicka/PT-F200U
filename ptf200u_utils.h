@@ -65,7 +65,9 @@ private:
 
     std::unique_ptr<QSerialPort> m_serialPort;
 
-    void SendCommand( QByteArray command, QByteArray parameter = "0");
+    void SendCommand( QByteArray command, QByteArray parameter = QByteArray());
+
+    bool WaitForResponse(QString & error);
 
 };
 

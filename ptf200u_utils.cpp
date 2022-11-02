@@ -3,6 +3,12 @@
 #include <QDebug>
 #include <QSerialPortInfo>
 
+/*
+ *
+ * Computer 2 not working...
+ *
+ *
+ * */
 PTF200U_Utils::PTF200U_Utils()
     : m_serialPort(std::make_unique<QSerialPort>())
 {
@@ -28,18 +34,7 @@ bool PTF200U_Utils::PowerON(QString &error)
 
     SendCommand("PON");
 
-    //might respond?
-    if(m_serialPort->waitForReadyRead(500))
-    {
-        //get the response
-        auto data = m_serialPort->readAll();
-        error = "Transmission successful, got unexpected response: "+ data;
-        m_serialPort->close();
-        return false;
-    }
-
-    m_serialPort->close();
-    return true;
+    return WaitForResponse(error);
 }
 
 bool PTF200U_Utils::PowerOFF(QString &error)
@@ -52,18 +47,7 @@ bool PTF200U_Utils::PowerOFF(QString &error)
 
     SendCommand("POF");
 
-    //might respond?
-    if(m_serialPort->waitForReadyRead(500))
-    {
-        //get the response
-        auto data = m_serialPort->readAll();
-        error = "Transmission successful, got unexpected response: "+ data;
-        m_serialPort->close();
-        return false;
-    }
-
-    m_serialPort->close();
-    return true;
+    return WaitForResponse(error);
 }
 
 bool PTF200U_Utils::SetInput(QString &error, InputOption inputOption)
@@ -104,26 +88,60 @@ bool PTF200U_Utils::SetInput(QString &error, InputOption inputOption)
 
     SendCommand(command, parameter);
 
-    //might respond?
-    if(m_serialPort->waitForReadyRead(500))
-    {
-        //get the response
-        auto data = m_serialPort->readAll();
-        error = "Transmission successful, got unexpected response: "+ data;
-        m_serialPort->close();
-        return false;
-    }
-
-    m_serialPort->close();
-    return true;
+    return WaitForResponse(error);
 }
 
 void PTF200U_Utils::SendCommand(QByteArray command, QByteArray parameter)
 {
     //format data
-    QByteArray data{"STX" + command + ":" + parameter + "ETX"};
+    QByteArray data;
+    data.append(0x02);
+    data.append(command);
+
+    if(!parameter.isEmpty())
+    {
+        data.append(':');
+        data.append(parameter);
+    }
+
+    data.append(0x03);
+
     qDebug() << "Writing: " << data;
-    m_serialPort->write(data);
+    auto wrote = m_serialPort->write(data);
+    //qDebug() << "Number bytes wrote: " << wrote;
+}
+
+bool PTF200U_Utils::WaitForResponse(QString & error)
+{
+    bool ret = false;
+    int timeoutms = 3000;
+
+    if(m_serialPort->waitForReadyRead(timeoutms))
+    {
+        //get the response
+        QByteArray expected ("\x02");
+        auto data = m_serialPort->readAll();
+        qDebug() << "Read: " << data;
+        if(data == expected)
+        //if(true)
+        {
+            ret = true;
+        }
+        else
+        {
+           error = QString("Response: %1, expected %2!").arg((QString)data).arg((QString)expected);
+           ret = false;
+        }
+
+    }
+    else
+    {
+        error = "Timeout after ms " + QString::number(timeoutms);
+        ret = false;
+    }
+
+    m_serialPort->close();
+    return ret;
 }
 
 QStringList PTF200U_Utils::GetSerialPortNames()
