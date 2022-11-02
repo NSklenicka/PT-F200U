@@ -8,7 +8,10 @@
  * Computer 2 not working...
  *
  *
- * */
+ */
+
+
+
 PTF200U_Utils::PTF200U_Utils()
     : m_serialPort(std::make_unique<QSerialPort>())
 {
@@ -19,46 +22,43 @@ PTF200U_Utils::PTF200U_Utils()
     m_serialPort->setFlowControl(QSerialPort::NoFlowControl);
 }
 
-void PTF200U_Utils::SetPortName(const QString &portName)
+PTF200U_Utils::~PTF200U_Utils()
 {
+    m_serialPort->close();
+}
+
+bool PTF200U_Utils::SetPortName(QString & error, const QString &portName)
+{
+    if (portName.isEmpty())
+    {
+        return true;
+    }
+
+    m_serialPort->close();
     m_serialPort->setPortName(portName);
-}
-
-bool PTF200U_Utils::PowerON(QString &error)
-{
-    if(!m_serialPort->open(QIODevice::ReadWrite))
+    if (!m_serialPort->open(QIODevice::ReadWrite))
     {
         error = "Failed to open port " + m_serialPort->portName();
         return false;
     }
 
+    return true;
+}
+
+bool PTF200U_Utils::cmd_PowerON(QString &error)
+{
     SendCommand("PON");
-
     return WaitForResponse(error);
 }
 
-bool PTF200U_Utils::PowerOFF(QString &error)
+bool PTF200U_Utils::cmd_PowerOFF(QString &error)
 {
-    if(!m_serialPort->open(QIODevice::ReadWrite))
-    {
-        error = "Failed to open port " + m_serialPort->portName();
-        return false;
-    }
-
     SendCommand("POF");
-
     return WaitForResponse(error);
 }
 
-bool PTF200U_Utils::SetInput(QString &error, InputOption inputOption)
+bool PTF200U_Utils::cmd_SetInput(QString &error, InputOption inputOption)
 {
-    if(!m_serialPort->open(QIODevice::ReadWrite))
-    {
-        error = "Failed to open port " + m_serialPort->portName();
-        return false;
-    }
-
-    QByteArray command("IIS");
     QByteArray parameter;
 
     switch(inputOption)
@@ -86,62 +86,93 @@ bool PTF200U_Utils::SetInput(QString &error, InputOption inputOption)
         }
     }
 
-    SendCommand(command, parameter);
-
+    SendCommand("IIS", parameter);
     return WaitForResponse(error);
+}
+
+bool PTF200U_Utils::cmd_Menu(QString& error)
+{
+    SendCommand("OMN");
+    return WaitForResponse(error);
+}
+
+bool PTF200U_Utils::cmd_UpKey(QString& error)
+{
+    SendCommand("OCU");
+    return WaitForResponse(error);
+}
+
+bool PTF200U_Utils::cmd_Enter(QString& error)
+{
+    SendCommand("OEN");
+    return WaitForResponse(error);
+}
+
+bool PTF200U_Utils::cmd_DownKey(QString& error)
+{
+    SendCommand("OCD");
+    return WaitForResponse(error);
+}
+
+void PTF200U_Utils::SendCommand(QByteArray command)
+{
+    QByteArray data;
+    data.append(0x02);
+    data.append(command);
+    data.append(0x03);
+
+    qDebug() << "Writing: " << data;
+    m_serialPort->write(data);
 }
 
 void PTF200U_Utils::SendCommand(QByteArray command, QByteArray parameter)
 {
-    //format data
     QByteArray data;
+
     data.append(0x02);
     data.append(command);
-
-    if(!parameter.isEmpty())
-    {
-        data.append(':');
-        data.append(parameter);
-    }
-
+    data.append(':');
+    data.append(parameter);
     data.append(0x03);
 
     qDebug() << "Writing: " << data;
-    auto wrote = m_serialPort->write(data);
-    //qDebug() << "Number bytes wrote: " << wrote;
+    m_serialPort->write(data);
 }
 
 bool PTF200U_Utils::WaitForResponse(QString & error)
 {
-    bool ret = false;
-    int timeoutms = 3000;
+    QByteArray static const ER401{"\2ER401\3"};
+    QByteArray static const ER402{ "\2ER402\3" };
 
-    if(m_serialPort->waitForReadyRead(timeoutms))
-    {
-        //get the response
-        QByteArray expected ("\x02");
-        auto data = m_serialPort->readAll();
+    constexpr int timeoutms = 1500;
+    QByteArray buffer;
+
+    while(m_serialPort->waitForReadyRead(timeoutms))
+    {        
+        auto data{ m_serialPort->readAll() };
         qDebug() << "Read: " << data;
-        if(data == expected)
-        //if(true)
-        {
-            ret = true;
-        }
-        else
-        {
-           error = QString("Response: %1, expected %2!").arg((QString)data).arg((QString)expected);
-           ret = false;
-        }
-
+        buffer.append( data );
     }
-    else
+
+    if (buffer.isEmpty())
     {
-        error = "Timeout after ms " + QString::number(timeoutms);
-        ret = false;
+        error = QString("No respose from the device after %1ms.").arg(timeoutms);
+        return false;
     }
 
-    m_serialPort->close();
-    return ret;
+    if (buffer == ER401)
+    {
+        error = QString("ER401: Commands cannot be accepted or the command does not exist.");
+        return false;
+    }
+
+    if (buffer == ER402)
+    {
+        error = QString("ER402: Parameter error.");
+        return false;
+    }
+
+    return true;
 }
 
 QStringList PTF200U_Utils::GetSerialPortNames()

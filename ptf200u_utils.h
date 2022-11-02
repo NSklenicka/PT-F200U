@@ -18,14 +18,9 @@
  * {
  *      //handle error;
  * }
- * ;
- * if(!device.SetInput(error, COMPUTER1))
- * {
- *      //handle error;
- * }
+ *
  */
 
-typedef unsigned short U8;
 
 class PTF200U_Utils
 {
@@ -33,7 +28,7 @@ public:
 
     [[nodiscard]] static QStringList GetSerialPortNames();
 
-    enum InputOption: U8
+    enum InputOption: uint8_t
        {
         VIDEO,
         COMPUTER1,
@@ -45,27 +40,36 @@ public:
     static QStringList InputOptionList();
 
     explicit PTF200U_Utils();
-    ~PTF200U_Utils(){};
+    ~PTF200U_Utils();
 
-    void SetPortName(QString const& portName);
+    bool SetPortName(QString & error, QString const& portName);
 
-    bool PowerON(QString &error);
+    bool cmd_PowerON(QString &error);
 
-    bool PowerOFF(QString &error);
+    bool cmd_PowerOFF(QString &error);
+
+    bool cmd_SetInput(QString& error, InputOption inputOption);
+
+    bool cmd_Menu(QString& error);
+
+    bool cmd_UpKey(QString& error);
+
+    bool cmd_Enter(QString& error);
+
+    bool cmd_DownKey(QString& error);
 
     //bool SetVolume(QString &error, U8 volume) const;
 
-    bool SetInput(QString &error, InputOption inputOption);
-
     //static void ToggleShutter();
 
-    //static LampCondition GetLampCondition();
+    //static QString GetLampCondition();
 
 private:
 
     std::unique_ptr<QSerialPort> m_serialPort;
 
-    void SendCommand( QByteArray command, QByteArray parameter = QByteArray());
+    void SendCommand( QByteArray command);
+    void SendCommand(QByteArray command, QByteArray parameter);
 
     bool WaitForResponse(QString & error);
 

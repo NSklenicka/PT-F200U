@@ -11,67 +11,513 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>PT-F200U</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+QToolTip
+{
+     border: 1px solid black;
+     background-color: #744da9;
+     padding: 1px;
+     border-radius: 3px;
+     opacity: 100;
+}
+
+QWidget
+{
+	color: #d5d5d5;
+    background-color: #323232;
+}
+
+QTableWidget
+{
+    color: #000000;
+}
+
+QMenuBar::item
+{
+    background: transparent;
+	color: #e7e7e7;
+}
+
+QMenuBar::item:selected
+{
+    background: transparent;
+    border: 1px solid #744da9;
+}
+
+QMenuBar::item:pressed
+{
+    background: #444;
+    border: 1px solid #000;
+    margin-bottom:-1px;
+    padding-bottom:1px;
+}
+
+QMenu
+{
+    
+}
+
+QMenu::item
+{
+    padding: 3px 20px 3px 20px;
+	font-size: 18px;
+	color: #e7e7e7;
+}
+
+QMenu::item:selected
+{
+	border: 2px solid #744da9;
+}
+
+QWidget:disabled
+{
+    color: #404040;
+    background-color: #323232;
+}
+
+QAbstractItemView
+{
+    background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #4d4d4d, stop: 0.1 #646464, stop: 1 #5d5d5d);
+}
+
+QLineEdit
+{
+    background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #4d4d4d, stop: 0 #646464, stop: 1 #5d5d5d);
+    padding: 1px;
+    border-style: solid;
+    border: 1px solid #1e1e1e;
+    border-radius: 5;
+}
+
+QPushButton
+{
+    color: #b1b1b1;
+    background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #565656, stop: 0.1 #525252, stop: 0.5 #4e4e4e, stop: 0.9 #4a4a4a, stop: 1 #464646);
+    border-width: 1px;
+    border-color: #1e1e1e;
+    border-style: solid;
+    border-radius: 6;
+    padding: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+QPushButton:hover
+{
+	border-radius: 6;
+	border-width: 2px;
+    border-color: #744da9;
+    border-style: solid;
+}
+
+QPushButton:pressed
+{
+    background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #2d2d2d, stop: 0.1 #2b2b2b, stop: 0.5 #292929, stop: 0.9 #282828, stop: 1 #252525);
+}
+
+
+QTextEdit:focus
+{
+    border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #744da9, stop: 1 #d7801a);
+}
+
+QTextEdit
+{
+    background-color: #242424;
+}
+
+QPlainTextEdit
+{
+    background-color: #242424;
+}
+
+QHeaderView::section
+{
+
+    background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #303030, stop: 0.5 #303030, stop: 0.6 #303030, stop:1 #000000);
+    color: #c2c2c2;
+    padding-left: 4px;
+    border: 1px solid #000000;
+}
+
+QCheckBox:disabled
+{
+	color: #414141;
+}
+
+QCheckBox:hover
+{
+    border: 1px solid #000000;
+}
+
+QDockWidget::title
+{
+    text-align: center;
+    spacing: 3px;
+    background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #323232, stop: 0.5 #242424, stop:1 #323232);
+}
+
+QDockWidget::close-button, QDockWidget::float-button
+{
+    text-align: center;
+    spacing: 1px;
+    background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #323232, stop: 0.5 #242424, stop:1 #323232);
+}
+
+QDockWidget::close-button:hover, QDockWidget::float-button:hover
+{
+    background: #242424;
+}
+
+QDockWidget::close-button:pressed, QDockWidget::float-button:pressed
+{
+    padding: 1px -1px -1px 1px;
+}
+
+QMainWindow::separator
+{
+    background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #161616, stop: 0.5 #151515, stop: 0.6 #212121, stop:1 #343434);
+    color: white;
+    padding-left: 4px;
+    border: 1px solid #4c4c4c;
+    spacing: 3px;
+}
+
+QMainWindow::separator:hover
+{
+
+    background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #d7801a, stop:0.5 #b56c17 stop:1 #744da9);
+    color: white;
+    padding-left: 4px;
+    border: 1px solid #6c6c6c;
+    spacing: 3px;
+}
+
+QToolBar::handle
+{
+     spacing: 3px;
+}
+
+QMenu::separator
+{
+    height: 2px;
+    background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #161616, stop: 0.5 #151515, stop: 0.6 #212121, stop:1 #343434);
+    color: 744da9;
+    padding-left: 4px;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+QProgressBar
+{
+    border: 2px solid grey;
+    border-radius: 5px;
+    text-align: center;
+}
+
+QProgressBar::chunk
+{
+    background-color: #d7801a;
+    width: 2.15px;
+    margin: 0.5px;
+}
+
+QTabBar::tab {
+    color: #b1b1b1;
+    border: 1px solid #888888;
+    border-bottom-style: none;
+    background-color: #323232;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 2px;
+    margin-right: -1px;
+}
+
+QTabWidget::pane {
+	border: 1px solid #888888;
+    top: 1px;
+}
+
+QTabBar::tab:last
+{
+    margin-right: 0;
+    border-top-right-radius: 3px;
+}
+
+QTabBar::tab:first:!selected
+{
+	margin-left: 0px;
+	border-top-left-radius: 3px;
+}
+
+QTabBar::tab:!selected
+{
+    color: #b1b1b1;
+    border-bottom-style: solid;
+    margin-top: 3px;
+    background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:1 #212121, stop:.4 #343434);
+}
+
+QTabBar::tab:!selected:hover
+{
+    border-top: 2px solid #744da9;
+    padding-bottom: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:1 #212121, stop:0.4 #343434, stop:0.2 #343434, stop:0.1 #744da9);
+}
+
+QRadioButton::indicator:checked, QRadioButton::indicator:unchecked{
+    color: #b1b1b1;
+    background-color: #323232;
+    border: 1px solid #b1b1b1;
+    border-radius: 6px;
+}
+
+QRadioButton::indicator:checked
+{
+    background-color: qradialgradient(
+        cx: 0.5, cy: 0.5,
+        fx: 0.5, fy: 0.5,
+        radius: 1.0,
+        stop: 0.25 #ffaa00,
+        stop: 0.3 #323232
+    );
+}
+
+QRadioButton::indicator
+{
+    border-radius: 6px;
+}
+
+QComboBox:on
+{
+    color: #FFFFFF;
+	selection-background-color: #000000;
+	background-color: #000000;
+}
+	</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QComboBox" name="comboBoxPortNames">
+   <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>70</y>
-      <width>151</width>
-      <height>28</height>
+      <x>40</x>
+      <y>30</y>
+      <width>211</width>
+      <height>151</height>
      </rect>
     </property>
+    <property name="frameShape">
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QComboBox" name="comboBoxPortNames">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_ON">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Power ON</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_OFF">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Power OFF</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
-   <widget class="QPushButton" name="button_ON">
+   <widget class="QFrame" name="frame_2">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>170</y>
-      <width>83</width>
-      <height>29</height>
+      <x>290</x>
+      <y>30</y>
+      <width>181</width>
+      <height>101</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Power ON</string>
+    <property name="frameShape">
+     <enum>QFrame::Panel</enum>
     </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QComboBox" name="comboBoxInput">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonSetInput">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Set Input</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
-   <widget class="QPushButton" name="button_OFF">
+   <widget class="QFrame" name="frame_3">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>250</y>
-      <width>83</width>
-      <height>29</height>
+      <x>20</x>
+      <y>260</y>
+      <width>271</width>
+      <height>261</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Power OFF</string>
+    <property name="frameShape">
+     <enum>QFrame::Panel</enum>
     </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <widget class="QPushButton" name="buttonMenu">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>83</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Menu</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="buttonUp">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>90</y>
+       <width>83</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>UP</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="buttonDown">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>190</y>
+       <width>83</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>DOWN</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="buttonSelect">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>140</y>
+       <width>83</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>SELECT</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QComboBox" name="comboBoxInput">
+   <widget class="QFrame" name="frame_4">
     <property name="geometry">
      <rect>
-      <x>450</x>
-      <y>70</y>
-      <width>82</width>
-      <height>28</height>
+      <x>550</x>
+      <y>20</y>
+      <width>181</width>
+      <height>151</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>150</y>
-      <width>83</width>
-      <height>29</height>
-     </rect>
+    <property name="frameShape">
+     <enum>QFrame::Panel</enum>
     </property>
-    <property name="text">
-     <string>Set Input</string>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
     </property>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QLCDNumber" name="timerDisplay">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>2</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="digitCount">
+        <number>2</number>
+       </property>
+       <property name="segmentStyle">
+        <enum>QLCDNumber::Flat</enum>
+       </property>
+       <property name="value" stdset="0">
+        <double>0.000000000000000</double>
+       </property>
+       <property name="intValue" stdset="0">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="butonResetTimer">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Reset</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -83,8 +529,20 @@
      <height>25</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen_Settings"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionOpen_Settings">
+   <property name="text">
+    <string>Open Settings</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
