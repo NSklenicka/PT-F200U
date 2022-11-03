@@ -114,6 +114,30 @@ bool PTF200U_Utils::cmd_DownKey(QString& error)
     return WaitForResponse(error);
 }
 
+bool PTF200U_Utils::cmd_LeftKey(QString& error)
+{
+    SendCommand("OCL");
+    return WaitForResponse(error);
+}
+
+bool PTF200U_Utils::cmd_RightKey(QString& error)
+{
+    SendCommand("OCR");
+    return WaitForResponse(error);
+}
+
+bool PTF200U_Utils::cmd_VolumePlus(QString& error)
+{
+    SendCommand("AUU");
+    return WaitForResponse(error);
+}
+
+bool PTF200U_Utils::cmd_VolumeMinus(QString& error)
+{
+    SendCommand("AUD");
+    return WaitForResponse(error);
+}
+
 void PTF200U_Utils::SendCommand(QByteArray command)
 {
     QByteArray data;

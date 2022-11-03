@@ -45,6 +45,14 @@ private slots:
 
     void on_checkBoxTimerEnable_toggled(bool checked);
 
+    void on_buttonLeft_clicked();
+
+    void on_buttonRight_clicked();
+
+    void on_buttonVolumeUp_clicked();
+
+    void on_buttonVolumeDown_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -58,6 +66,8 @@ private:
 
     void StartTimer();
     void StopTimer();
+
+    QString error;
 
 };
 #endif // MAINWINDOW_H

@@ -88,7 +88,6 @@ void MainWindow::onEveryMinute()
     
     if (ui->timerDisplay->value() == 0)
     {
-        QString error;
         if (!m_device.cmd_PowerOFF(error))
         {
             //an error occurred. I guess just try again in another minute.
@@ -102,7 +101,6 @@ void MainWindow::onEveryMinute()
 
 void MainWindow::on_comboBoxPortNames_currentTextChanged(const QString &arg1)
 {
-    QString error;
     if (!m_device.SetPortName(error, arg1))
     {
         QMessageBox::critical(this, "Error", error);
@@ -111,7 +109,6 @@ void MainWindow::on_comboBoxPortNames_currentTextChanged(const QString &arg1)
 
 void MainWindow::on_button_ON_clicked()
 {
-    QString error;
     if(!m_device.cmd_PowerON(error))
     {
         QMessageBox::critical(this, "Error", error);
@@ -121,7 +118,6 @@ void MainWindow::on_button_ON_clicked()
 
 void MainWindow::on_button_OFF_clicked()
 {
-    QString error;
     if(!m_device.cmd_PowerOFF(error))
     {
         QMessageBox::critical(this, "Error", error);
@@ -130,7 +126,6 @@ void MainWindow::on_button_OFF_clicked()
 
 void MainWindow::on_buttonSetInput_clicked()
 {
-    QString error;
     if (!m_device.cmd_SetInput(error, (PTF200U_Utils::InputOption)ui->comboBoxInput->currentIndex()))
     {
         QMessageBox::critical(this, "Error", error);
@@ -139,7 +134,6 @@ void MainWindow::on_buttonSetInput_clicked()
 
 void MainWindow::on_buttonMenu_clicked()
 {
-    QString error;
     if (!m_device.cmd_Menu(error))
     {
         QMessageBox::critical(this, "Error", error);
@@ -148,7 +142,6 @@ void MainWindow::on_buttonMenu_clicked()
 
 void MainWindow::on_buttonUp_clicked()
 {
-    QString error;
     if (!m_device.cmd_UpKey(error))
     {
         QMessageBox::critical(this, "Error", error);
@@ -157,7 +150,6 @@ void MainWindow::on_buttonUp_clicked()
 
 void MainWindow::on_buttonSelect_clicked()
 {
-    QString error;
     if (!m_device.cmd_Enter(error))
     {
         QMessageBox::critical(this, "Error", error);
@@ -166,7 +158,6 @@ void MainWindow::on_buttonSelect_clicked()
 
 void MainWindow::on_buttonDown_clicked()
 {
-    QString error;
     if (!m_device.cmd_DownKey(error))
     {
         QMessageBox::critical(this, "Error", error);
@@ -192,6 +183,42 @@ void MainWindow::on_checkBoxTimerEnable_toggled(bool checked)
     else
     {
         StopTimer();
+    }
+}
+
+
+void MainWindow::on_buttonLeft_clicked()
+{
+    if (!m_device.cmd_LeftKey(error))
+    {
+        QMessageBox::critical(this, "Error", error);
+    }
+}
+
+
+void MainWindow::on_buttonRight_clicked()
+{
+    if (!m_device.cmd_RightKey(error))
+    {
+        QMessageBox::critical(this, "Error", error);
+    }
+}
+
+
+void MainWindow::on_buttonVolumeUp_clicked()
+{
+    if (!m_device.cmd_VolumePlus(error))
+    {
+        QMessageBox::critical(this, "Error", error);
+    }
+}
+
+
+void MainWindow::on_buttonVolumeDown_clicked()
+{
+    if (!m_device.cmd_VolumeMinus(error))
+    {
+        QMessageBox::critical(this, "Error", error);
     }
 }
 

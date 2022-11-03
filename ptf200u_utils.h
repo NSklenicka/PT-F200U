@@ -37,7 +37,7 @@ public:
         SVIDEO
        };
 
-    static QStringList InputOptionList();
+    [[nodiscard]] static QStringList InputOptionList();
 
     explicit PTF200U_Utils();
     ~PTF200U_Utils();
@@ -52,17 +52,19 @@ public:
 
     bool cmd_Menu(QString& error);
 
-    bool cmd_UpKey(QString& error);
-
     bool cmd_Enter(QString& error);
+
+    bool cmd_UpKey(QString& error);
 
     bool cmd_DownKey(QString& error);
 
-    //bool SetVolume(QString &error, U8 volume) const;
+    bool cmd_LeftKey(QString& error);
 
-    //static void ToggleShutter();
+    bool cmd_RightKey(QString& error);
 
-    //static QString GetLampCondition();
+    bool cmd_VolumePlus(QString& error);
+
+    bool cmd_VolumeMinus(QString& error);
 
 private:
 
