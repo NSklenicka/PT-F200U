@@ -141,7 +141,7 @@ void PTF200U_Utils::SendCommand(QByteArray command, QByteArray parameter)
 
 bool PTF200U_Utils::WaitForResponse(QString & error)
 {
-    QByteArray static const ER401{"\2ER401\3"};
+    QByteArray static const ER401{ "\2ER401\3" };
     QByteArray static const ER402{ "\2ER402\3" };
 
     constexpr int timeoutms = 1500;
@@ -152,6 +152,10 @@ bool PTF200U_Utils::WaitForResponse(QString & error)
         auto data{ m_serialPort->readAll() };
         qDebug() << "Read: " << data;
         buffer.append( data );
+        if (data == "\x03")//end transmission
+        {
+            break;
+        }
     }
 
     if (buffer.isEmpty())

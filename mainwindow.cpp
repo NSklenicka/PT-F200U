@@ -40,12 +40,15 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBoxPortNames->setCurrentIndex(lastInputIndex);
 
     //start timer
-    m_minutes = settings.value("timer", 60).toInt();
+    m_minutes = settings.value("timerMinutes", 60).toInt();
     ui->timerDisplay->display(m_minutes);
-    QTimer* minuteTimer = new QTimer(this);
-    minuteTimer->setTimerType(Qt::VeryCoarseTimer);
-    connect(minuteTimer, SIGNAL(timeout()), this, SLOT(onEveryMinute()));
-    minuteTimer->start( 60 * 1000);//every minute
+    m_timer = new QTimer(this);
+    m_timer->setTimerType(Qt::CoarseTimer);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(onEveryMinute()));
+    if (settings.value("timerEnabled", true).toBool())
+    {
+        ui->checkBoxTimerEnable->setChecked(true);//starts timer
+    }
 }
 
 void MainWindow::SaveSettings()
@@ -54,7 +57,20 @@ void MainWindow::SaveSettings()
     settings.setValue("geometry", saveGeometry());
     settings.setValue("port", ui->comboBoxPortNames->currentText());
     settings.setValue("inputIndex", ui->comboBoxInput->currentIndex());
-    settings.setValue("timer", m_minutes);
+    settings.setValue("timerMinutes", m_minutes);
+    settings.setValue("timerEnabled", true);
+}
+
+void MainWindow::StartTimer()
+{
+    m_timer->start(m_minutes * 60 * 1000);
+    qDebug() << "Timer started. Minutes: " << m_minutes;
+}
+
+void MainWindow::StopTimer()
+{
+    m_timer->stop();
+    qDebug() << "Timer stopped.";
 }
 
 MainWindow::~MainWindow()
@@ -165,5 +181,17 @@ void MainWindow::on_butonResetTimer_clicked()
 void MainWindow::on_actionOpen_Settings_triggered()
 {
     QDesktopServices::openUrl(QUrl::fromLocalFile(settingsPath));
+}
+
+void MainWindow::on_checkBoxTimerEnable_toggled(bool checked)
+{
+    if (checked)
+    {
+        StartTimer();
+    }
+    else
+    {
+        StopTimer();
+    }
 }
 

@@ -9,6 +9,8 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+class QTimer;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -41,6 +43,8 @@ private slots:
 
     void on_actionOpen_Settings_triggered();
 
+    void on_checkBoxTimerEnable_toggled(bool checked);
+
 private:
     Ui::MainWindow *ui;
 
@@ -49,6 +53,11 @@ private:
     int m_minutes;
 
     void SaveSettings();
+
+    QTimer* m_timer;
+
+    void StartTimer();
+    void StopTimer();
 
 };
 #endif // MAINWINDOW_H
