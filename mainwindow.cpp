@@ -42,9 +42,9 @@ MainWindow::MainWindow(QWidget *parent)
     //start timer
     m_minutes = settings.value("timerMinutes", 60).toInt();
     ui->timerDisplay->display(m_minutes);
-    m_timer = new QTimer(this);
-    m_timer->setTimerType(Qt::CoarseTimer);
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(onEveryMinute()));
+    m_minuteTimer = new QTimer(this);
+    m_minuteTimer->setTimerType(Qt::CoarseTimer);
+    connect(m_minuteTimer, SIGNAL(timeout()), this, SLOT(onEveryMinute()));
     if (settings.value("timerEnabled", true).toBool())
     {
         ui->checkBoxTimerEnable->setChecked(true);//starts timer
@@ -63,13 +63,13 @@ void MainWindow::SaveSettings()
 
 void MainWindow::StartTimer()
 {
-    m_timer->start(m_minutes * 60 * 1000);
-    qDebug() << "Timer started. Minutes: " << m_minutes;
+    m_minuteTimer->start(60 * 1000);
+    qDebug() << "Minute timer started.";
 }
 
 void MainWindow::StopTimer()
 {
-    m_timer->stop();
+    m_minuteTimer->stop();
     qDebug() << "Timer stopped.";
 }
 
@@ -94,6 +94,7 @@ void MainWindow::onEveryMinute()
         }
         else
         {
+            //either we're not connected, or power off succeeded.
             QApplication::quit();
         }
     }

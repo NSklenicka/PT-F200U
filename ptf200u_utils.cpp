@@ -27,6 +27,11 @@ PTF200U_Utils::~PTF200U_Utils()
     m_serialPort->close();
 }
 
+QSerialPort* PTF200U_Utils::GetSerialPort()
+{
+    return m_serialPort.get();
+}
+
 bool PTF200U_Utils::SetPortName(QString & error, const QString &portName)
 {
     if (portName.isEmpty())
@@ -140,6 +145,11 @@ bool PTF200U_Utils::cmd_VolumeMinus(QString& error)
 
 void PTF200U_Utils::SendCommand(QByteArray command)
 {
+    if (!m_serialPort->isOpen())
+    {
+        return;
+    }
+
     QByteArray data;
     data.append(0x02);
     data.append(command);

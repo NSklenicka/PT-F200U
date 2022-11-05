@@ -42,6 +42,8 @@ public:
     explicit PTF200U_Utils();
     ~PTF200U_Utils();
 
+    QSerialPort* GetSerialPort();
+
     bool SetPortName(QString & error, QString const& portName);
 
     bool cmd_PowerON(QString &error);

@@ -62,7 +62,7 @@ private:
 
     void SaveSettings();
 
-    QTimer* m_timer;
+    QTimer* m_minuteTimer;
 
     void StartTimer();
     void StopTimer();
