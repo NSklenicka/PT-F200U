@@ -49,6 +49,17 @@ MainWindow::MainWindow(QWidget *parent)
     {
         ui->checkBoxTimerEnable->setChecked(true);//starts timer
     }
+
+    //auto power on
+    bool autoPowerOn = settings.value("autoPowerOn", false).toBool();
+    ui->checkBoxAutoPowerOnEnable->setChecked(autoPowerOn);
+    if (autoPowerOn)
+    {
+        if (!m_device.cmd_PowerON(error))
+        {
+            QMessageBox::critical(this, "Error", error);
+        }
+    }
 }
 
 void MainWindow::SaveSettings()
@@ -58,7 +69,8 @@ void MainWindow::SaveSettings()
     settings.setValue("port", ui->comboBoxPortNames->currentText());
     settings.setValue("inputIndex", ui->comboBoxInput->currentIndex());
     settings.setValue("timerMinutes", m_minutes);
-    settings.setValue("timerEnabled", true);
+    settings.setValue("timerEnabled", ui->checkBoxTimerEnable->isChecked());
+    settings.setValue("autoPowerOn", ui->checkBoxAutoPowerOnEnable->isChecked());
 }
 
 void MainWindow::StartTimer()
@@ -114,7 +126,6 @@ void MainWindow::on_button_ON_clicked()
     {
         QMessageBox::critical(this, "Error", error);
     }
-
 }
 
 void MainWindow::on_button_OFF_clicked()
@@ -187,7 +198,6 @@ void MainWindow::on_checkBoxTimerEnable_toggled(bool checked)
     }
 }
 
-
 void MainWindow::on_buttonLeft_clicked()
 {
     if (!m_device.cmd_LeftKey(error))
@@ -195,7 +205,6 @@ void MainWindow::on_buttonLeft_clicked()
         QMessageBox::critical(this, "Error", error);
     }
 }
-
 
 void MainWindow::on_buttonRight_clicked()
 {
@@ -205,7 +214,6 @@ void MainWindow::on_buttonRight_clicked()
     }
 }
 
-
 void MainWindow::on_buttonVolumeUp_clicked()
 {
     if (!m_device.cmd_VolumePlus(error))
@@ -214,12 +222,22 @@ void MainWindow::on_buttonVolumeUp_clicked()
     }
 }
 
-
 void MainWindow::on_buttonVolumeDown_clicked()
 {
     if (!m_device.cmd_VolumeMinus(error))
     {
         QMessageBox::critical(this, "Error", error);
     }
+}
+
+void MainWindow::on_buttonTimerIncrease_clicked()
+{
+    ui->timerDisplay->display(ui->timerDisplay->value() + 1);
+}
+
+
+void MainWindow::on_buttonTimerDecrease_clicked()
+{
+    ui->timerDisplay->display(ui->timerDisplay->value() - 1);
 }
 

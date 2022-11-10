@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>520</width>
+    <width>496</width>
     <height>578</height>
    </rect>
   </property>
@@ -436,7 +436,7 @@ QComboBox:on
       </rect>
      </property>
      <property name="text">
-      <string>^</string>
+      <string>↑</string>
      </property>
     </widget>
     <widget class="QPushButton" name="buttonDown">
@@ -449,7 +449,7 @@ QComboBox:on
       </rect>
      </property>
      <property name="text">
-      <string>v</string>
+      <string>↓</string>
      </property>
     </widget>
     <widget class="QPushButton" name="buttonSelect">
@@ -475,7 +475,7 @@ QComboBox:on
       </rect>
      </property>
      <property name="text">
-      <string>&lt;-</string>
+      <string>←</string>
      </property>
     </widget>
     <widget class="QPushButton" name="buttonRight">
@@ -488,7 +488,7 @@ QComboBox:on
       </rect>
      </property>
      <property name="text">
-      <string>-&gt;</string>
+      <string>→</string>
      </property>
     </widget>
    </widget>
@@ -496,9 +496,9 @@ QComboBox:on
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>20</y>
-      <width>231</width>
-      <height>201</height>
+      <y>30</y>
+      <width>201</width>
+      <height>191</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -507,13 +507,41 @@ QComboBox:on
     <property name="frameShadow">
      <enum>QFrame::Sunken</enum>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
-     <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="4" column="0">
+      <widget class="QCheckBox" name="checkBoxTimerEnable">
+       <property name="text">
+        <string>Enable Timer</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QCheckBox" name="checkBoxAutoPowerOnEnable">
+       <property name="text">
+        <string>Auto Power ON</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2">
+      <widget class="QPushButton" name="buttonTimerDecrease">
+       <property name="text">
+        <string>↓</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QPushButton" name="buttonTimerIncrease">
+       <property name="text">
+        <string>↑</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" rowspan="2" colspan="3">
       <widget class="QLCDNumber" name="timerDisplay">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
-         <verstretch>2</verstretch>
+         <verstretch>5</verstretch>
         </sizepolicy>
        </property>
        <property name="digitCount">
@@ -530,23 +558,16 @@ QComboBox:on
        </property>
       </widget>
      </item>
-     <item>
+     <item row="2" column="0" colspan="3">
       <widget class="QPushButton" name="butonResetTimer">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
-         <verstretch>1</verstretch>
+         <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="text">
         <string>Reset</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="checkBoxTimerEnable">
-       <property name="text">
-        <string>Enable Timer</string>
        </property>
       </widget>
      </item>
@@ -618,7 +639,7 @@ QComboBox:on
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>520</width>
+     <width>496</width>
      <height>25</height>
     </rect>
    </property>

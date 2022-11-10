@@ -53,6 +53,10 @@ private slots:
 
     void on_buttonVolumeDown_clicked();
 
+    void on_buttonTimerIncrease_clicked();
+
+    void on_buttonTimerDecrease_clicked();
+
 private:
     Ui::MainWindow *ui;
 

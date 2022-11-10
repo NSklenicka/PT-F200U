@@ -3,14 +3,6 @@
 #include <QDebug>
 #include <QSerialPortInfo>
 
-/*
- *
- * Computer 2 not working...
- *
- *
- */
-
-
 
 PTF200U_Utils::PTF200U_Utils()
     : m_serialPort(std::make_unique<QSerialPort>())
@@ -36,7 +28,8 @@ bool PTF200U_Utils::SetPortName(QString & error, const QString &portName)
 {
     if (portName.isEmpty())
     {
-        return true;
+        error = __FUNCTION__"(): Port name is empty!";
+        return false;
     }
 
     m_serialPort->close();
@@ -161,6 +154,11 @@ void PTF200U_Utils::SendCommand(QByteArray command)
 
 void PTF200U_Utils::SendCommand(QByteArray command, QByteArray parameter)
 {
+    if (!m_serialPort->isOpen())
+    {
+        return;
+    }
+
     QByteArray data;
 
     data.append(0x02);
@@ -175,6 +173,12 @@ void PTF200U_Utils::SendCommand(QByteArray command, QByteArray parameter)
 
 bool PTF200U_Utils::WaitForResponse(QString & error)
 {
+    if (!m_serialPort->isOpen())
+    {
+        error = __FUNCTION__ "(): No port open!";
+        return false;
+    }
+
     QByteArray static const ER401{ "\2ER401\3" };
     QByteArray static const ER402{ "\2ER402\3" };
 
@@ -194,7 +198,7 @@ bool PTF200U_Utils::WaitForResponse(QString & error)
 
     if (buffer.isEmpty())
     {
-        error = QString("No respose from the device after %1ms.").arg(timeoutms);
+        error = QString("No response from the device after %1ms.").arg(timeoutms);
         return false;
     }
 
